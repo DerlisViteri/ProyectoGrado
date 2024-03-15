@@ -196,6 +196,10 @@
               <span class="menu-title">USUARIOS</span>
                 <i class="mdi mdi-home menu-icon"></i>
 
+                <a class="nav-link" href="{{route('genera_ordenes.index')}}">
+              <span class="menu-title">Generar Ordenes</span>
+                <i class="mdi mdi-home menu-icon"></i>
+
 
                
                 
