@@ -84,4 +84,19 @@ class GeneraOrdenesController extends Controller
             '12'=>'Diciembre',
         ];
     }
+
+    public function generarOrdenes(Request $rq){
+        $datos=$rq->all();
+        $anl_id=$datos['anl_id'];
+        $jor_id=$datos['jor_id'];
+        $mes=$datos['mes'];
+        $estudiantes=DB::select("SELECT * FROM matriculas m 
+                                 JOIN estudiantes e ON m.est_id=e.id
+                                 WHERE m.anl_id=$anl_id 
+                                 AND m.jor_id=$jor_id
+                                 AND m.mat_estado=1
+                                 ");
+        dd($estudiantes);                         
+
+    }
 }
