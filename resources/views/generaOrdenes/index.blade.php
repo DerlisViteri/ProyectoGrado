@@ -30,4 +30,30 @@
 
 
 </form>
+
+
+
+<table class="table" >
+    <thead>
+        <tr>
+            <th>Género Órdenes</th>
+        </tr>
+        <tr>
+            <th>Secuencial</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($ordenes as $o)
+        <tr>
+            <td>{{$o->secuencial}}</td>
+            <td>{{$o->fecha_registro}}</td>
+            <td><!-- Aquí puedes añadir acciones si las hay --></td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+
 @endsection

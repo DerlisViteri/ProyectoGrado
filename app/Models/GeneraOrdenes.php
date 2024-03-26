@@ -9,25 +9,27 @@ class GeneraOrdenes extends Model
 {
     use HasFactory;
 
-    protected $table= "ordenes_generadas";
-    protected $primaryKey="or_id";
-    public $timestamps = false;
-    protected $fillable =[
-        'mat_id',
-        'codigo',
-        'fecha_registro',
-        'valor_pagar',
-        'fecha_pago',
-        'valor_pagado',
-        'estado',
-        'mes',
-        'responsable',
-        'secuencial',
-        'documento',
+    protected $table = 'ordenes_generadas';
+    protected $primaryKey = 'ord_id';
+    public $timestamps = false; //QUE NO PIDA LOS CAMPOS OBLIGATORIOS
+    protected $fillable = [
+        'mat_id', 
+        'fecha', 
+        'mes', 
+        'codigo', 
+        'valor', 
+        'fecha_pago', 
+        'tipo', 
+        'estado', 
+        'responsable', 
+        'obs', 
+        'identificador', 
+        'motivo', 
+        'vpagado', 
+        'f_acuerdo', 
+        'ac_no', 
+        'especial_code', 
+        'especial',
+        'numero_documento'
     ];
-
-    public function matricula()
-    {
-        return $this->belongsTo(Matricula::class,'mat_id','id');
-    }
 }
