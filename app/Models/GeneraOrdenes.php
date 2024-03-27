@@ -19,16 +19,9 @@ class GeneraOrdenes extends Model
         'codigo', 
         'valor', 
         'fecha_pago', 
-        'tipo', 
         'estado', 
         'responsable', 
-        'obs', 
-        'identificador', 
-        'motivo', 
         'vpagado', 
-        'f_acuerdo', 
-        'ac_no', 
-        'especial_code', 
         'especial',
         'numero_documento'
     ];
