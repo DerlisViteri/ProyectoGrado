@@ -1,87 +1,111 @@
 @extends('layouts.app')
+
 @section('content')
-<h2>Genera Ordenes</h2>
+<script>
+    $(document).on("click", ".btn_delete", function(){
+        if (confirm("Seguro desea eliminar?")) {
+            const secuencial = $(this).attr('secuencial');
+            $('#secuencial').val(secuencial);
+            $('#frmEliminar').submit();
+        }
+    });
+</script>
 
-<form action="{{route('generarOrdenes')}}" method="POST">
-  @csrf
-<div style="display: flex; ">
-    <select name="anl_id" id="anl_id" class="form-control">
-        @foreach ($periodos as $p)
-            <option value="{{$p->id}} ">{{$p->anl_descripcion}}</option>
-        @endforeach
-    </select>
-
-    <select name="jor_id" id="jor_id" class="form-control">
-        @foreach ($jornadas as $j)
-            <option value="{{$j->id}}">{{$j->jor_descripcion}}</option>
-        @endforeach
-    </select>
-
-    <select name="mes" id="mes" class="form-control">
-        @foreach ($meses as $key=>$m)
-            <option value="{{$key}}">{{$m}}</option>
-        @endforeach
-    </select>
-
-    <button type="submit" class="btn btn-primary">Generar</button>
-
-</div>
+<form action="{{route('eliminarOrden')}}" method="POST" id="frmEliminar">
+    @csrf
+    <input type="text" name="secuencial" id="secuencial" value="0" hidden/>
 </form>
 
-<br>
+<div class="container">
+    <h1 class="text-center mb-4">VISTA GENERA ORDENES</h1>
 
-<style>
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .table th, .table td {
-        border: 1px solid #b399a2; /* Cambio de color de borde */
-        padding: 8px;
-        text-align: left;
-    }
-
-    .table th {
-        background-color: #dbf9f0; /* Cambio de color de fondo para encabezados */
-    }
-
-    .table tbody tr:nth-child(even) {
-        background-color: #ffffff; /* Cambio de color de fondo para filas pares */
-    }
-
-    .table tbody tr:hover {
-        background-color: #eee5e9; /* Cambio de color de fondo al pasar el cursor */
-    }
-</style>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Secuencial</th>
-            <th>Fecha</th>
-            <th>Año lectivo</th>
-            <th>Mes</th>
-            <th>Jornada</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($ordenes as $o)
-        <tr>
-            <td>{{$o->especial}}</td>
-            <td>{{$o->fecha}}</td>
-            <td>{{$o->anl_descripcion}}</td>
-            <td>{{$o->mes}}</td>
-            <td>{{$o->jor_descripcion}}</td>
-            <td><!-- Aquí puedes añadir acciones si las hay --></td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-
-
-
-
+    <form action="{{ route('generarOrdenes') }}" method="POST" id="orderForm">
+        @csrf
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <div class="col-md-8">
+                        <select name="anl_id" id="anl_id" class="form-control">
+                            @foreach ($periodos as $p)
+                            <option value="{{ $p->id }}">{{ $p->anl_descripcion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <label for="jor_id" class="col-md-4 col-form-label text-white bg-success">Jornada:</label>
+                    <div class="col-md-8">
+                        <select name="jor_id" id="jor_id" class="form-control">
+                            @foreach ($jornadas as $j)
+                            <option value="{{ $j->id }}">{{ $j->jor_descripcion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <label for="mes" class="col-md-4 col-form-label text-white bg-info">Mes:</label>
+                    <div class="col-md-8">
+                        <select name="mes" id="mes" class="form-control">
+                            @foreach ($meses as $key => $m)
+                            <option value="{{ $key }}">{{ $m }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-warning btn-block btn-animate">
+                            <i class="fas fa-calendar-plus mr-2"></i> Generar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="container mt-4">
+    <h4>Ordenes Generadas</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-dark table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="bg-secondary">Secuencial</th>
+                    <th class="bg-secondary">Fecha</th>
+                    <th class="bg-secondary">Jornada</th>
+                    <th class="bg-secondary">Mes</th>
+                    <th class="bg-secondary">Año Lectivo</th>
+                    <th class="bg-secondary">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ordenes as $o)
+                <tr>
+                    <td>{{ $o->especial }}</td>
+                    <td>{{ $o->fecha }}</td>
+                    <td>{{ $o->jor_descripcion }}</td>
+                    <td>{{ $meses[$o->mes] }}</td>
+                    <td>{{ $o->anl_descripcion }}</td>
+                    <td>
+                        <!-- Botón para ver -->
+                        <a href="" class="btn btn-info btn-sm mr-1">
+                        <i class="fas fa-eye"></i> Ver
+                        </a>
+                        <!-- Botón para eliminar -->
+                        <a class="btn btn-danger btn-sm btn_delete" secuencial="{{$o->especial}}">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
 @endsection
