@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/generarOrdenes',[GeneraOrdenesController::class,'generarOrdenes'])->name('generarOrdenes');
     Route::post('/eliminarOrden',[GeneraOrdenesController::class,'eliminarOrden'])->name('eliminarOrden');
 
+
+    Route::get('/genera_ordenes.show',[GeneraOrdenesController::class, 'show'])->name('genera_ordenes');
+
 });
 
 
