@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/genera_ordenes.show',[GeneraOrdenesController::class, 'show'])->name('genera_ordenes');
+    Route::get('/mostrar/{secuencial}', [GeneraOrdenesController::class, 'mostrar'])->name('mostrar');
+    Route::get('/xls/{secuencial}', [GeneraOrdenesController::class, 'xls'])->name('xls');
 
 });
 

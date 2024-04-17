@@ -184,4 +184,44 @@ class GeneraOrdenesController extends Controller
         return Redirect(route('genera_ordenes.index'));
 
     }
+
+    public function mostrar($especial){
+        // Convertir $especial a una cadena
+        $especial = strval($especial);
+        
+        // Ejecutar la consulta SQL
+        $estudiantes=DB::select("SELECT * from ordenes_generadas o 
+                                JOIN matriculas m ON m.id=o.mat_id
+                                JOIN estudiantes e ON e.id=m.est_id
+                                JOIN jornadas j ON m.jor_id=j.id
+
+                                JOIN especialidades esp ON esp.id = m.esp_id
+                                JOIN cursos cur ON cur.id = m.cur_id
+                                where especial='$especial'  
+                                order by e.est_apellidos 
+                                LIMIT 50
+                                
+                                ");
+        
+        // Retornar la vista con los datos obtenidos
+        return view('generaOrdenes.mostrar')
+            ->with('estudiantes', $estudiantes);
+    }
+
+    public function xls($especial){
+       
+        return view('generaOrdenes.excel');
+          
+    }
+    public function exportExcel(){
+       
+        return Excel::download(new GeneraOrdenesExport ,'_excel.xlsx');
+        // $response = Http::get('http://192.168.100.92/api/public/api/matriculas/1/16');
+        // $data = $response->json();
+        // dd($data);
+        
+        
+            }
+        
+    
 }
